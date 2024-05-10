@@ -38,10 +38,10 @@ class HomePageGUIFunc(BaseGUIFunc):
         review_vocabulary_button = tk.Button(
             homepage_frame,
             text="Review Vocabulary",
-            command=self.review_vocabulary
+            command=self.review_vocabulary,
         )
         review_vocabulary_button.grid(row=2, column=1)
-        homepage_frame.pack(anchor=cs.CENTER)
+        homepage_frame.pack(anchor=cs.CENTER, fill=cs.X)
         self.homepage_frame = homepage_frame
 
     def logout(self):

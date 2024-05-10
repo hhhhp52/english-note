@@ -48,7 +48,7 @@ class LoginGUIFunc(BaseGUIFunc):
         guest_login_button.grid(row=3, column=1)
         clear_button = tk.Button(login_frame, text="Clear", command=self.clear)
         clear_button.grid(row=3, column=2)
-        login_frame.pack(anchor=cs.CENTER)
+        login_frame.pack(anchor=cs.CENTER, expand=1)
         self.login_frame = login_frame
         self.account_entry = account_entry
         self.password_entry = password_entry
