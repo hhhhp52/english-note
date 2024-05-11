@@ -5,6 +5,6 @@ Email = 'test@gmail.com'
 
 class Config:
 
-    def __int__(self):
+    def __init__(self):
         self.account = Account
         self.email = Email
