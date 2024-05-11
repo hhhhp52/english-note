@@ -23,9 +23,8 @@ class HomePageGUIFunc(BaseGUIFunc):
         logout_button.grid(row=0, column=2)
         content_label = tk.Label(
             homepage_frame,
-            text="Hi, {first_name} {last_name}, Welcome to english note".format(
-                first_name="Schnee",
-                last_name="Ruan"
+            text="Hi, {name}, Welcome to english note".format(
+                name=self.account
             )
         )
         content_label.grid(row=1, column=0)
