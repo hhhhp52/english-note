@@ -19,8 +19,14 @@ class HomePageGUIFunc(BaseGUIFunc):
         account_label.grid(row=0, column=0)
         clear_button = tk.Button(homepage_frame, text="Clear", command=self.clear)
         clear_button.grid(row=0, column=1)
-        logout_button = tk.Button(homepage_frame, text="Logout", command=self.logout)
-        logout_button.grid(row=0, column=2)
+        if self.account:
+            setting_button = tk.Button(homepage_frame, text="Setting", command=self.setting)
+            setting_button.grid(row=0, column=2)
+            logout_button = tk.Button(homepage_frame, text="Log Out", command=self.login)
+            logout_button.grid(row=0, column=3)
+        else:
+            login_button = tk.Button(homepage_frame, text="Log In", command=self.logout)
+            login_button.grid(row=0, column=2)
         content_label = tk.Label(
             homepage_frame,
             text="Hi, {name}, Welcome to english note".format(
@@ -47,6 +53,10 @@ class HomePageGUIFunc(BaseGUIFunc):
         self.clear()
         transfer.init_login_layout()
 
+    def login(self):
+        self.clear()
+        transfer.init_login_layout()
+
     def clear(self):
         # Clear previous content if any
         if self.function_frame is not None:
@@ -65,3 +75,7 @@ class HomePageGUIFunc(BaseGUIFunc):
     def review_vocabulary(self):
         self.clear()
         self.function_frame = transfer.init_review_vocabulary()
+
+    def setting(self):
+        self.clear()
+        self.function_frame = transfer.init_setting()

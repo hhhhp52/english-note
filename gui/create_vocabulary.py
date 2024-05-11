@@ -10,7 +10,7 @@ from helpers import helpers
 class CreateVocabularyGUIFunc(BaseGUIFunc):
 
     def __init__(self, current_date: str):
-        self.vocabulary_frame = None
+        self.homepage_func_frame = None
         self.vocabulary_entry = None
         self.part_of_speech_listbox = None
         self.explain_entry = None
@@ -19,10 +19,8 @@ class CreateVocabularyGUIFunc(BaseGUIFunc):
 
     def create_vocabulary_layout_init(self):
         vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=2, padx=2, pady=2, width=400, height=400)
-        glucose_title_label = tk.Label(vocabulary_frame, text="Vocabulary")
-        glucose_title_label.grid(row=0, column=0)
-        time_choose_label = tk.Label(vocabulary_frame, text="請針對下方進行填寫")
-        time_choose_label.grid(row=1, column=0)
+        vocabulary_title_label = tk.Label(vocabulary_frame, text="Vocabulary")
+        vocabulary_title_label.grid(row=0, column=0)
         part_of_speech_list = ["Noun", "Verb", "Adjective", "Adverb", "Preposition"]
         vocabulary_label = tk.Label(vocabulary_frame, text="Vocabulary")
         vocabulary_label.grid(row=2, column=0)
@@ -46,13 +44,12 @@ class CreateVocabularyGUIFunc(BaseGUIFunc):
         create_button.grid(row=6, column=0)
         clear_button = tk.Button(vocabulary_frame, text="Clear", command=self.clear)
         clear_button.grid(row=6, column=1)
-        vocabulary_frame.pack(side=cs.TOP)
-        self.vocabulary_frame = vocabulary_frame
+        vocabulary_frame.pack(anchor=cs.CENTER, expand=1)
+        self.homepage_func_frame = vocabulary_frame
         self.vocabulary_entry = vocabulary_entry
         self.part_of_speech_listbox = part_of_speech_listbox
         self.explain_entry = explain_entry
         self.sentence_entry = sentence_entry
-
 
     def clear(self, auto_clear=False):
         if not auto_clear:
@@ -63,10 +60,10 @@ class CreateVocabularyGUIFunc(BaseGUIFunc):
             if not vocabulary_entry or not explain_entry or not sentence_entry:
                 result = messagebox.askquestion("Clear Data", "Are you sure you want to clear all data?")
                 if result == "yes":
-                    self.destroy_widgets(self.vocabulary_frame)
+                    self.destroy_widgets(self.homepage_func_frame)
                     self.create_vocabulary_layout_init()
         else:
-            self.destroy_widgets(self.vocabulary_frame)
+            self.destroy_widgets(self.homepage_func_frame)
             self.create_vocabulary_layout_init()
 
     def send(self):

@@ -9,7 +9,7 @@ from helpers import helpers
 class ReviewVocabularyGUIFunc(BaseGUIFunc):
 
     def __init__(self):
-        self.vocabulary_frame = None
+        self.homepage_func_frame = None
         self.choose_review_date = None
         self.review_date = None
 
@@ -24,24 +24,22 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
             self.choose_review_date.set("請選擇")
         review_date_listbox = tk.OptionMenu(vocabulary_frame, self.choose_review_date, *file_names)  # 選單
         review_date_listbox.grid(row=0, column=0)
-        vocabulary_frame.pack(side=cs.TOP)
+        vocabulary_frame.pack(anchor=cs.CENTER, expand=1)
         self.choose_review_date.trace('w', self.show)
-        self.vocabulary_frame = vocabulary_frame
+        self.homepage_func_frame = vocabulary_frame
 
     def show(self, *_):
         if self.choose_review_date.get() != "請選擇":
             self.review_date = self.choose_review_date.get()
-            self.destroy_widgets(self.vocabulary_frame)
+            self.destroy_widgets(self.homepage_func_frame)
             self.review_vocabulary_layout_init()
-            tk.Label(self.vocabulary_frame, text="Vocabulary:").grid(row=1, column=0)
-            tk.Label(self.vocabulary_frame, text="Part of Speech:").grid(row=1, column=1)
-            tk.Label(self.vocabulary_frame, text="Explain:").grid(row=1, column=2)
-            tk.Label(self.vocabulary_frame, text="Sentence:").grid(row=1, column=3)
-
+            tk.Label(self.homepage_func_frame, text="Vocabulary:").grid(row=1, column=0)
+            tk.Label(self.homepage_func_frame, text="Part of Speech:").grid(row=1, column=1)
+            tk.Label(self.homepage_func_frame, text="Explain:").grid(row=1, column=2)
+            tk.Label(self.homepage_func_frame, text="Sentence:").grid(row=1, column=3)
             vocabulary_data = helpers.read_file(self.review_date)
-
             for i, (word, pos, explain, sentence) in enumerate(vocabulary_data, start=2):
-                tk.Label(self.vocabulary_frame, text=word).grid(row=i, column=0)
-                tk.Label(self.vocabulary_frame, text=pos).grid(row=i, column=1)
-                tk.Label(self.vocabulary_frame, text=explain).grid(row=i, column=2)
-                tk.Label(self.vocabulary_frame, text=sentence).grid(row=i, column=3)
+                tk.Label(self.homepage_func_frame, text=word).grid(row=i, column=0)
+                tk.Label(self.homepage_func_frame, text=pos).grid(row=i, column=1)
+                tk.Label(self.homepage_func_frame, text=explain).grid(row=i, column=2)
+                tk.Label(self.homepage_func_frame, text=sentence).grid(row=i, column=3)
