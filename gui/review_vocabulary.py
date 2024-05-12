@@ -56,18 +56,17 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
             vocabulary_data = helpers.read_file(self.review_date)
             count = 0
             row = 0
-            for test in range(10):
-                for i, (word, pos, explain, sentence) in enumerate(vocabulary_data):
-                    group_frame = tk.LabelFrame(inner_frame, text=f"Vocabulary")
-                    group_frame.grid(row=row, column=count % 3, sticky="nsew", padx=5, pady=5)
-                    tk.Label(group_frame, text="Number: {number}".format(number=count + 1)).pack()
-                    tk.Label(group_frame, text=f"Vocabulary: {word}").pack()
-                    tk.Label(group_frame, text=f"Part of Speech: {pos}").pack()
-                    tk.Label(group_frame, text=f"Explain: {explain}").pack()
-                    tk.Label(group_frame, text=f"Sentence: {sentence}").pack()
-                    count += 1
-                    if count > 2 and count % 3 == 0:  # Start a new row every 3rd group frame=
-                        row += 1
+            for i, (word, pos, explain, sentence) in enumerate(vocabulary_data):
+                group_frame = tk.LabelFrame(inner_frame, text=f"Vocabulary")
+                group_frame.grid(row=row, column=count % 3, sticky="nsew", padx=5, pady=5)
+                tk.Label(group_frame, text="Number: {number}".format(number=count + 1)).pack()
+                tk.Label(group_frame, text=f"Vocabulary: {word}").pack()
+                tk.Label(group_frame, text=f"Part of Speech: {pos}").pack()
+                tk.Label(group_frame, text=f"Explain: {explain}").pack()
+                tk.Label(group_frame, text=f"Sentence: {sentence}").pack()
+                count += 1
+                if count > 2 and count % 3 == 0:  # Start a new row every 3rd group frame=
+                    row += 1
 
             inner_frame.update_idletasks()  # Update inner_frame size
             canvas.config(scrollregion=canvas.bbox("all"))
