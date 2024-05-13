@@ -1,10 +1,49 @@
 # coding=utf-8
-Account = "Guest"
-Email = 'test@gmail.com'
+from typing import List, Dict
+
+from helpers import helpers
 
 
 class Config:
 
     def __init__(self):
-        self.account = Account
-        self.email = Email
+        self.account = None
+        self.email = None
+        self.exist_vocabulary_files = list()
+        self.mapping_between_file_and_vocabulary_count = dict()
+        self.account_vocabularies = list()
+
+    def set_account(self, account: str):
+        self.account = account
+
+    def init_account_data(self):
+        if self.account is not None:
+            mapping_between_file_and_vocabulary_count = dict()
+            exist_vocabulary_files = list()
+            file_names = helpers.list_file_names(self.account)
+            vocabularies = list()
+            for file_name in file_names:
+                file_data = helpers.read_file(self.account, file_name)
+                if file_data:
+                    exist_vocabulary_files.append(file_name)
+                    mapping_between_file_and_vocabulary_count[file_name] = len(file_data)
+                    for i, (word, _, _, _) in enumerate(file_data):
+                        vocabularies.append(word)
+                else:
+                    mapping_between_file_and_vocabulary_count[file_name] = 0
+
+            self._set_file_list(exist_vocabulary_files)
+            self._set_mapping_between_file_and_vocabulary_count(mapping_between_file_and_vocabulary_count)
+            self._set_account_vocabularies(vocabularies)
+
+    def _set_file_list(self, exist_vocabulary_files: List):
+        self.exist_vocabulary_files = exist_vocabulary_files
+
+    def _set_mapping_between_file_and_vocabulary_count(self, mapping_between_file_and_vocabulary_count: Dict):
+        self.mapping_between_file_and_vocabulary_count = mapping_between_file_and_vocabulary_count
+
+    def _set_account_vocabularies(self, vocabularies):
+        self.account_vocabularies = vocabularies
+
+    def _check_different_between_account_file_and_guest_file(self):
+        pass
