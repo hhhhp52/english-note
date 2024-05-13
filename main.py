@@ -17,7 +17,4 @@ def _create_tk():
 if __name__ == '__main__':
     app = _create_tk()
     transfer.init_login_layout(first_init=True)
-    # Get the current date in the format YYYY-MM-DD
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    helpers.check_and_create_file(current_date)
     app.mainloop()

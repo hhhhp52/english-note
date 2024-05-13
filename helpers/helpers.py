@@ -3,17 +3,18 @@ import csv
 from typing import List
 
 
-def check_and_create_file(current_date: str):
+def check_and_create_file(account: str, current_date: str):
     # Construct the file name using the current date
     file_name = f"{current_date}.csv"
+    file_dir = os.path.join("file", account)
 
     # Check if the file exists
-    file_path = os.path.join("file", file_name)
+    file_path = os.path.join(file_dir, file_name)
     if os.path.exists(file_path):
         print(f"The file '{file_name}' already exists.")
     else:
         # Create the file if it doesn't exist
-        os.makedirs("file", exist_ok=True)
+        os.makedirs(file_dir, exist_ok=True)
         with open(file_path, 'w', newline='') as file:
             csv_writer = csv.writer(file)
             # Write header if needed
@@ -21,14 +22,15 @@ def check_and_create_file(current_date: str):
         print(f"The file '{file_name}' has been created.")
 
 
-def open_and_write_file(current_date: str, vocabulary: str, part_of_speech: List, explain:str, sentence:str):
-    check_and_create_file(current_date)
+def open_and_write_file(account: str, current_date: str, vocabulary: str, part_of_speech: List, explain:str, sentence:str):
+    check_and_create_file(account, current_date)
 
     # Construct the file name using the current date
     file_name = f"{current_date}.csv"
+    file_dir = os.path.join("file", account)
 
     # Check if the file exists
-    file_path = os.path.join("file", file_name)
+    file_path = os.path.join(file_dir, file_name)
     if os.path.exists(file_path):
         try:
             with open(file_path, 'a', newline='') as file:
@@ -41,13 +43,15 @@ def open_and_write_file(current_date: str, vocabulary: str, part_of_speech: List
     return True
 
 
-def list_file_names():
-    file_names = os.listdir("file")
+def list_file_names(account: str):
+    file_dir = os.path.join("file", account)
+    file_names = os.listdir(file_dir)
     return file_names
 
 
-def read_file(file_name):
-    file_path = os.path.join("file", file_name)
+def read_file(account: str, file_name: str):
+    file_dir = os.path.join("file", account)
+    file_path = os.path.join(file_dir, file_name)
     data = list()
     if os.path.exists(file_path):
         with open(file_path, 'r', newline='') as file:

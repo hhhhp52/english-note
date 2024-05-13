@@ -1,16 +1,19 @@
 # coding=utf-8
 import tkinter as tk
 import tkinter.constants as cs
+
+from config import Config
 from gui.base import BaseGUIFunc
 
 
 class SettingGUIFunc(BaseGUIFunc):
 
-    def __init__(self):
+    def __init__(self, config: Config()):
         self.homepage_func_frame = None
         self.email_entry = None
+        self.config = config
 
-    def setting_layout_init(self, config):
+    def setting_layout_init(self):
         setting_frame = tk.Frame(relief=cs.RIDGE, borderwidth=2, padx=2, pady=2)
         data_frame = tk.Frame(setting_frame, relief=cs.RIDGE, borderwidth=1)
         setting_title_label = tk.Label(data_frame, anchor=cs.CENTER, text="Setting")
@@ -18,7 +21,7 @@ class SettingGUIFunc(BaseGUIFunc):
         email_label = tk.Label(data_frame, anchor=cs.CENTER, text="Email")
         email_label.grid(row=1, column=0)
         email = tk.StringVar()
-        email.set(config.email)
+        email.set(self.config.email)
         email_entry = tk.Entry(data_frame, textvariable=email)
         email_entry.grid(row=1, column=1)
         create_button = tk.Button(data_frame, anchor=cs.CENTER, text="Send", command=self.send)

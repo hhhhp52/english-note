@@ -2,21 +2,23 @@
 import tkinter as tk
 import tkinter.constants as cs
 
+from config import Config
 from gui.base import BaseGUIFunc
 from helpers import helpers
 
 
 class ReviewVocabularyGUIFunc(BaseGUIFunc):
 
-    def __init__(self):
+    def __init__(self, config: Config()):
         self.homepage_func_frame = None
         self.choose_review_date = None
         self.review_date = None
+        self.config = config
 
-    def review_vocabulary_layout_init(self, with_data=False):
+    def review_vocabulary_layout_init(self):
         # Review Vocabulary Layout
         vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=5, padx=3, pady=3, width=400, height=400)
-        file_names = helpers.list_file_names()
+        file_names = helpers.list_file_names(self.config.account)
         self.choose_review_date = tk.StringVar()
         if self.review_date is not None:
             self.choose_review_date.set(self.review_date)
@@ -32,7 +34,7 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
         if self.choose_review_date.get() != "請選擇":
             self.review_date = self.choose_review_date.get()
             self.destroy_widgets(self.homepage_func_frame)
-            self.review_vocabulary_layout_init(with_data=True)
+            self.review_vocabulary_layout_init()
             # Create a Canvas widget
             data_frame = tk.Frame(self.homepage_func_frame, relief=cs.RIDGE, borderwidth=10, padx=5, pady=5)
             canvas = tk.Canvas(data_frame)
@@ -53,7 +55,7 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
 
             # Bind the event to update the scroll region
             inner_frame.bind("<Configure>", on_configure)
-            vocabulary_data = helpers.read_file(self.review_date)
+            vocabulary_data = helpers.read_file(self.config.account, self.review_date)
             count = 0
             row = 0
             for i, (word, pos, explain, sentence) in enumerate(vocabulary_data):

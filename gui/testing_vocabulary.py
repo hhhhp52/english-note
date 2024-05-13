@@ -2,13 +2,14 @@
 import tkinter as tk
 import tkinter.constants as cs
 
+from config import Config
 from gui.base import BaseGUIFunc
 from helpers import helpers
 
 
 class TestingVocabularyGUIFunc(BaseGUIFunc):
 
-    def __init__(self):
+    def __init__(self, config: Config()):
         self.homepage_func_frame = None
 
     def testing_vocabulary_layout_init(self):

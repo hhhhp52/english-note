@@ -3,22 +3,24 @@ import tkinter as tk
 import tkinter.constants as cs
 from tkinter import messagebox
 
+from config import Config
 from gui.base import BaseGUIFunc
 from helpers import helpers
 
 
 class CreateVocabularyGUIFunc(BaseGUIFunc):
 
-    def __init__(self, current_date: str):
+    def __init__(self, config: Config(), current_date: str):
         self.homepage_func_frame = None
         self.vocabulary_entry = None
         self.part_of_speech_listbox = None
         self.explain_entry = None
         self.sentence_entry = None
         self.current_date = current_date
+        self.config = config
 
     def create_vocabulary_layout_init(self):
-        vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=2, padx=2, pady=2, width=400, height=400)
+        vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=5, padx=3, pady=3, width=400, height=400)
         vocabulary_title_label = tk.Label(vocabulary_frame, text="Vocabulary")
         vocabulary_title_label.grid(row=0, column=0)
         part_of_speech_list = ["Noun", "Verb", "Adjective", "Adverb", "Preposition"]
@@ -44,7 +46,7 @@ class CreateVocabularyGUIFunc(BaseGUIFunc):
         create_button.grid(row=6, column=0)
         clear_button = tk.Button(vocabulary_frame, text="Clear", command=self.clear)
         clear_button.grid(row=6, column=1)
-        vocabulary_frame.pack(anchor=cs.CENTER, expand=1)
+        vocabulary_frame.pack(anchor=cs.CENTER, expand=True, fill=cs.BOTH)
         self.homepage_func_frame = vocabulary_frame
         self.vocabulary_entry = vocabulary_entry
         self.part_of_speech_listbox = part_of_speech_listbox
@@ -81,6 +83,7 @@ class CreateVocabularyGUIFunc(BaseGUIFunc):
         selected_part_of_speech = [self.part_of_speech_listbox.get(index) for index in part_of_speech_listbox]
 
         if not helpers.open_and_write_file(
+            self.config.account,
             self.current_date,
             vocabulary_entry,
             selected_part_of_speech,

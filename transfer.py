@@ -4,6 +4,8 @@ import gui
 from config import Config
 from datetime import datetime
 
+from helpers import helpers
+
 current_date = datetime.now().strftime("%Y-%m-%d")
 config = Config()
 
@@ -11,11 +13,11 @@ config = Config()
 class FuncNodeAdapter:
     def __init__(self):
         self.login_gui_func = gui.login.LoginGUIFunc()
-        self.create_vocabulary_func = gui.create_vocabulary.CreateVocabularyGUIFunc(current_date)
-        self.review_vocabulary_func = gui.review_vocabulary.ReviewVocabularyGUIFunc()
+        self.create_vocabulary_func = gui.create_vocabulary.CreateVocabularyGUIFunc(config, current_date)
+        self.review_vocabulary_func = gui.review_vocabulary.ReviewVocabularyGUIFunc(config)
         self.homepage_gui_func = gui.homepage.HomePageGUIFunc()
-        self.setting_gui_func = gui.setting.SettingGUIFunc()
-        self.testing_gui_func = gui.testing_vocabulary.TestingVocabularyGUIFunc()
+        self.setting_gui_func = gui.setting.SettingGUIFunc(config)
+        self.testing_gui_func = gui.testing_vocabulary.TestingVocabularyGUIFunc(config)
         self.latest_func = None
 
 
@@ -26,6 +28,7 @@ def init_homepage_layout(account):
     func_node.login_gui_func.destroy_login_layout()
     func_node.homepage_gui_func.account = account
     config.account = account
+    helpers.check_and_create_file(account, current_date)
     func_node.homepage_gui_func.homepage_layout_init()
 
 
@@ -60,7 +63,7 @@ def init_review_vocabulary():
 def init_setting():
     homepage_func_frame_destroy()
     func_node.latest_func = func_node.setting_gui_func
-    frame = func_node.setting_gui_func.setting_layout_init(config)
+    frame = func_node.setting_gui_func.setting_layout_init()
     return frame
 
 
