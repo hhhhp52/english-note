@@ -18,7 +18,7 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
     def review_vocabulary_layout_init(self):
         # Review Vocabulary Layout
         vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=5, padx=3, pady=3, width=400, height=400)
-        file_names = helpers.list_file_names(self.config.account)
+        file_names = self.config.exist_vocabulary_files
         self.choose_review_date = tk.StringVar()
         if self.review_date is not None:
             self.choose_review_date.set(self.review_date)

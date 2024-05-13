@@ -92,6 +92,13 @@ class CreateVocabularyGUIFunc(BaseGUIFunc):
         ):
             messagebox.showerror("Failed", "Create Failed")
         else:
+            file_name = f"{self.current_date}.csv"
+            if file_name not in self.config.exist_vocabulary_files:
+                self.config.exist_vocabulary_files.append(file_name)
+            if self.config.mapping_between_file_and_vocabulary_count.get(file_name):
+                count = self.config.mapping_between_file_and_vocabulary_count.get(file_name) + 1
+                self.config.mapping_between_file_and_vocabulary_count[file_name] = count
+            self.config.account_vocabularies.append(vocabulary_entry)
             messagebox.showinfo("Success", "Create Success")
             self.clear(auto_clear=True)
 

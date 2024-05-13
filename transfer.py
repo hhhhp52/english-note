@@ -4,11 +4,6 @@ import gui
 from config import Config
 from datetime import datetime
 
-from helpers import helpers
-
-current_date = datetime.now().strftime("%Y-%m-%d")
-config = Config()
-
 
 class FuncNodeAdapter:
     def __init__(self):
@@ -21,14 +16,16 @@ class FuncNodeAdapter:
         self.latest_func = None
 
 
+current_date = datetime.now().strftime("%Y-%m-%d")
+config = Config()
 func_node = FuncNodeAdapter()
 
 
 def init_homepage_layout(account):
     func_node.login_gui_func.destroy_login_layout()
     func_node.homepage_gui_func.account = account
-    config.account = account
-    helpers.check_and_create_file(account, current_date)
+    config.set_account(account)
+    config.init_account_data()
     func_node.homepage_gui_func.homepage_layout_init()
 
 
