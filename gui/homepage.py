@@ -19,7 +19,7 @@ class HomePageGUIFunc(BaseGUIFunc):
         account_label.grid(row=0, column=0)
         clear_button = tk.Button(homepage_frame, text="Clear", command=self.clear)
         clear_button.grid(row=0, column=1)
-        if self.account:
+        if self.account and self.account != "Guest":
             setting_button = tk.Button(homepage_frame, text="Setting", command=self.setting)
             setting_button.grid(row=0, column=2)
             logout_button = tk.Button(homepage_frame, text="Log Out", command=self.login)
