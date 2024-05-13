@@ -4,3 +4,4 @@ import gui.review_vocabulary
 import gui.login
 import gui.homepage
 import gui.setting
+import gui.testing_vocabulary

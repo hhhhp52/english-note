@@ -45,7 +45,15 @@ class HomePageGUIFunc(BaseGUIFunc):
             text="Review Vocabulary",
             command=self.review_vocabulary,
         )
+
         review_vocabulary_button.grid(row=2, column=1)
+        testing_vocabulary_button = tk.Button(
+            homepage_frame,
+            text="Testing Vocabulary",
+            command=self.testing_vocabulary,
+        )
+
+        testing_vocabulary_button.grid(row=2, column=2)
         homepage_frame.pack(anchor=cs.CENTER, fill=cs.X)
         self.homepage_frame = homepage_frame
 
@@ -79,3 +87,7 @@ class HomePageGUIFunc(BaseGUIFunc):
     def setting(self):
         self.clear()
         self.function_frame = transfer.init_setting()
+
+    def testing_vocabulary(self):
+        self.clear()
+        self.function_frame = transfer.init_testing_vocabulary()

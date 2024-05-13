@@ -15,6 +15,7 @@ class FuncNodeAdapter:
         self.review_vocabulary_func = gui.review_vocabulary.ReviewVocabularyGUIFunc()
         self.homepage_gui_func = gui.homepage.HomePageGUIFunc()
         self.setting_gui_func = gui.setting.SettingGUIFunc()
+        self.testing_gui_func = gui.testing_vocabulary.TestingVocabularyGUIFunc()
         self.latest_func = None
 
 
@@ -60,5 +61,12 @@ def init_setting():
     homepage_func_frame_destroy()
     func_node.latest_func = func_node.setting_gui_func
     frame = func_node.setting_gui_func.setting_layout_init(config)
+    return frame
+
+
+def init_testing_vocabulary():
+    homepage_func_frame_destroy()
+    func_node.latest_func = func_node.testing_gui_func
+    frame = func_node.testing_gui_func.testing_vocabulary_layout_init()
     return frame
 
