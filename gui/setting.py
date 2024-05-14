@@ -26,7 +26,7 @@ class SettingGUIFunc(BaseGUIFunc):
         email_entry.grid(row=1, column=1)
         total_vocabulary_label = tk.Label(data_frame, anchor=cs.CENTER, text="Total Vocabulary: ")
         total_vocabulary_label.grid(row=2, column=0)
-        total_vocabulary_count = tk.Label(data_frame, text=len(self.config.account_vocabularies))
+        total_vocabulary_count = tk.Label(data_frame, text=len(self.config.account_vocabulary))
         total_vocabulary_count.grid(row=2, column=1)
         create_button = tk.Button(data_frame, anchor=cs.CENTER, text="Send", command=self.send)
         create_button.grid(row=3, column=0)
