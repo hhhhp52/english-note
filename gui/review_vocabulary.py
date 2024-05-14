@@ -56,8 +56,10 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
             # Bind the event to update the scroll region
             inner_frame.bind("<Configure>", on_configure)
             vocabulary_data = helpers.read_file(self.config.account, self.review_date)
+            vocabulary_count = tk.Label(inner_frame, text="Total Vocabulary: {count}".format(count=len(vocabulary_data)))
+            vocabulary_count.grid(row=0, column=0)
             count = 0
-            row = 0
+            row = 1
             for i, (word, pos, explain, sentence) in enumerate(vocabulary_data):
                 group_frame = tk.LabelFrame(inner_frame, text=f"Vocabulary")
                 group_frame.grid(row=row, column=count % 3, sticky="nsew", padx=5, pady=5)
