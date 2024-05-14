@@ -43,7 +43,7 @@ class Config:
         self.mapping_between_file_and_vocabulary_count = mapping_between_file_and_vocabulary_count
 
     def _set_account_vocabulary(self, vocabulary):
-        self.account_vocabularies = vocabulary
+        self.account_vocabulary = vocabulary
 
     def _check_different_between_account_file_and_guest_file(self):
         pass
