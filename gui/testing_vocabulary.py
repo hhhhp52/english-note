@@ -2,6 +2,7 @@
 import random
 import tkinter as tk
 import tkinter.constants as cs
+from tkinter import messagebox
 from typing import List
 
 from config import Config
@@ -11,7 +12,7 @@ from gui.base import BaseGUIFunc
 class QuestionNode:
     def __init__(self, vocabulary_words: List, testing_way: str, testing_size: int):
         self.size = testing_size
-        self.testing_vocabulary_words = random.sample(
+        random.sample(
             vocabulary_words,
             testing_size if len(vocabulary_words) >= 5 else len(vocabulary_words)
         )
@@ -21,20 +22,39 @@ class QuestionNode:
         self.next = 1
 
         if self.way == "fill_out":
-            self._set_fill_out_data()
+            self.testing_vocabulary_words = self._set_fill_out_data(self.size, vocabulary_words)
         else:
-            self._set_choose_data()
+            self.testing_vocabulary_words = self._set_choose_data(self.size, vocabulary_words)
 
-    def _set_fill_out_data(self):
-        pass
+    def _set_fill_out_data(self, testing_size, vocabulary_words):
+        testing_data = list()
+        testing_vocabulary_words = random.sample(
+            vocabulary_words,
+            testing_size if len(vocabulary_words) >= 5 else len(vocabulary_words)
+        )
+        for word in testing_vocabulary_words:
+            data = dict(
+                word=word.get("word"),
+                translation=word.get("translation"),
+                answer=None,
+                correct=False
+            )
+            testing_data.append(data)
+        return testing_data
 
-    def _set_choose_data(self):
-        pass
+    def _set_choose_data(self, testing_size, vocabulary_words):
+        testing_data = list()
+        return testing_data
 
     def move_to_previous(self):
         if self.previous > 0:
             self.previous -= 1
             self.next -= 1
+
+    def save_answer(self, answer):
+        self.testing_vocabulary_words[self.previous]["answer"] = answer
+        if self.testing_vocabulary_words[self.previous]["word"] == answer:
+            self.testing_vocabulary_words[self.previous]["correct"] = True
 
     def move_to_next(self):
         if self.next < self.size:
@@ -42,7 +62,19 @@ class QuestionNode:
             self.next += 1
 
     def get_data(self):
-        pass
+        return self.testing_vocabulary_words[self.previous]
+
+    def get_result(self):
+        correct_count = 0
+        for data in self.testing_vocabulary_words:
+            if data["correct"]:
+                correct_count += 1
+
+        result = dict(
+            total=self.size,
+            correct=correct_count
+        )
+        return result
 
 
 class TestingVocabularyGUIFunc(BaseGUIFunc):
@@ -67,6 +99,9 @@ class TestingVocabularyGUIFunc(BaseGUIFunc):
         self.homepage_func_frame = testing_function_frame
 
     def choose_question_init(self):
+        if self.testing_frame:
+            self.destroy_widgets(self.testing_frame)
+            self.testing_frame = None
         self.question = None
         self.testing_way = "choose"
         self.question = QuestionNode(
@@ -77,6 +112,9 @@ class TestingVocabularyGUIFunc(BaseGUIFunc):
         self.choose_question(self.question.get_data())
 
     def fill_out_init(self):
+        if self.testing_frame:
+            self.destroy_widgets(self.testing_frame)
+            self.testing_frame = None
         self.question = None
         self.testing_way = "fill_out"
         self.question = QuestionNode(
@@ -91,19 +129,31 @@ class TestingVocabularyGUIFunc(BaseGUIFunc):
 
     def fill_out_question(self, data):
         self.testing_frame = tk.Frame(self.homepage_func_frame, relief=cs.RIDGE, borderwidth=10, padx=5, pady=5)
-        testing_vocabulary_word = str(self.question.previous) + "SchneeTest" + str(self.question.next)
         inner_frame = tk.Frame(self.testing_frame)
         inner_frame.pack(pady=10, anchor=tk.N)
         vocabulary_word_label = tk.Label(
             inner_frame,
             text="Question Word: {word}".format(
-                word=(testing_vocabulary_word.replace(
-                    testing_vocabulary_word[1:-1], "_"))))
+                word=(data.get("word").replace(
+                    data.get("word")[1:-1], "_"))))
         vocabulary_word_label.grid(row=0, column=0)
-        vocabulary_word_entry = tk.Entry(
-            inner_frame
-        )
-        vocabulary_word_entry.grid(row=1, column=0, sticky=cs.SE)
+        translation_label = tk.Label(
+            inner_frame,
+            text="Question Translation: {translation}".format(
+                translation=(data.get("translation"))))
+        translation_label.grid(row=1, column=0)
+        if data.get("answer"):
+            answer = tk.StringVar()
+            answer.set(data.get("answer"))
+            answer_entry = tk.Entry(
+                inner_frame,
+                textvariable=answer
+            )
+        else:
+            answer_entry = tk.Entry(
+                inner_frame
+            )
+        answer_entry.grid(row=2, column=0)
         func_button_frame = tk.Frame(self.testing_frame)
         func_button_frame.pack(pady=10, fill=cs.X, anchor=cs.S)
         if self.question.next < self.question.size:
@@ -120,6 +170,7 @@ class TestingVocabularyGUIFunc(BaseGUIFunc):
             send_button.pack(side=cs.RIGHT)
 
         self.testing_frame.pack()
+        self.answer_entry = answer_entry
 
     def _previous(self):
         self.question.move_to_previous()
@@ -127,11 +178,16 @@ class TestingVocabularyGUIFunc(BaseGUIFunc):
         self._reset_layout()
 
     def _next(self):
+        self.question.save_answer(self.answer_entry.get())
         self.question.move_to_next()
         self.destroy_widgets(self.testing_frame)
         self._reset_layout()
 
     def _send(self):
+        result = self.question.get_result()
+        messagebox.showinfo("Result", "Correct Count: {correct}/{total}".format(
+            correct=result["correct"], total=result["total"]
+        ))
         self.destroy_widgets(self.homepage_func_frame)
         self.testing_vocabulary_layout_init()
 
