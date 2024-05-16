@@ -7,6 +7,7 @@ from datetime import datetime
 
 class FuncNodeAdapter:
     def __init__(self):
+        self.register_gui_func = gui.register.RegisterGUIFunc()
         self.login_gui_func = gui.login.LoginGUIFunc()
         self.create_vocabulary_func = gui.create_vocabulary.CreateVocabularyGUIFunc(config, current_date)
         self.review_vocabulary_func = gui.review_vocabulary.ReviewVocabularyGUIFunc(config)
@@ -24,9 +25,13 @@ func_node = FuncNodeAdapter()
 def init_homepage_layout(account):
     func_node.login_gui_func.destroy_login_layout()
     func_node.homepage_gui_func.account = account
-    config.set_account(account)
-    config.init_account_data()
+    config.init_account_data(account, current_date)
     func_node.homepage_gui_func.homepage_layout_init()
+
+
+def init_register_layout():
+    func_node.login_gui_func.destroy_login_layout()
+    func_node.register_gui_func.register_layout_init()
 
 
 def init_login_layout(first_init=False):

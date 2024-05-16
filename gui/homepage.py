@@ -15,11 +15,11 @@ class HomePageGUIFunc(BaseGUIFunc):
 
     def homepage_layout_init(self):
         homepage_frame = tk.Frame(relief=cs.RIDGE, borderwidth=2, padx=2, pady=2, width=1024, height=400)
-        account_label = tk.Label(homepage_frame, text="Account: {account}".format(account=self.account))
+        account_label = tk.Label(homepage_frame, text="Account: {account}".format(account=self.account["account"]))
         account_label.grid(row=0, column=0)
         clear_button = tk.Button(homepage_frame, text="Clear", command=self.clear)
         clear_button.grid(row=0, column=1)
-        if self.account and self.account != "Guest":
+        if self.account["account"] != "guest":
             setting_button = tk.Button(homepage_frame, text="Setting", command=self.setting)
             setting_button.grid(row=0, column=2)
             logout_button = tk.Button(homepage_frame, text="Log Out", command=self.login)
@@ -30,7 +30,7 @@ class HomePageGUIFunc(BaseGUIFunc):
         content_label = tk.Label(
             homepage_frame,
             text="Hi, {name}, Welcome to english note".format(
-                name=self.account
+                name=self.account["name"] if self.account["name"] else self.account["account"]
             )
         )
         content_label.grid(row=1, column=0)

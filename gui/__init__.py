@@ -5,3 +5,4 @@ import gui.login
 import gui.homepage
 import gui.setting
 import gui.testing_vocabulary
+import gui.register
