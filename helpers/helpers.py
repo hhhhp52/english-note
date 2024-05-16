@@ -18,11 +18,14 @@ def check_and_create_file(account: str, current_date: str):
         with open(file_path, 'w', newline='') as file:
             csv_writer = csv.writer(file)
             # Write header if needed
-            csv_writer.writerow(["Vocabulary", "Part of speech", "Explain", "Sentence"])
+            csv_writer.writerow(["Vocabulary", "Translation", "Part of speech", "Explain", "Sentence"])
         print(f"The file '{file_name}' has been created.")
 
 
-def open_and_write_file(account: str, current_date: str, vocabulary: str, part_of_speech: List, explain:str, sentence:str):
+def open_and_write_file(
+        account: str, current_date: str, vocabulary: str,
+        translation: str, part_of_speech: List, explain: str, sentence: str
+):
     check_and_create_file(account, current_date)
 
     # Construct the file name using the current date
@@ -36,7 +39,7 @@ def open_and_write_file(account: str, current_date: str, vocabulary: str, part_o
             with open(file_path, 'a', newline='') as file:
                 csv_writer = csv.writer(file)
                 part_of_speech_str = ', '.join(part_of_speech)
-                csv_writer.writerow([vocabulary, part_of_speech_str, explain, sentence])
+                csv_writer.writerow([vocabulary, translation, part_of_speech_str, explain, sentence])
         except Exception as e:
             print(e)
             return False

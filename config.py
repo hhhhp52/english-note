@@ -27,8 +27,11 @@ class Config:
                 if file_data:
                     exist_vocabulary_files.append(file_name)
                     mapping_between_file_and_vocabulary_count[file_name] = len(file_data)
-                    for i, (word, _, _, _) in enumerate(file_data):
-                        vocabulary.append(word)
+                    for i, (word, translation, _, _, _) in enumerate(file_data):
+                        vocabulary.append(dict(
+                            word=word,
+                            translation=translation
+                        ))
                 else:
                     mapping_between_file_and_vocabulary_count[file_name] = 0
 
