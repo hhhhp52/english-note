@@ -59,11 +59,17 @@ def init_system_dir():
     os.makedirs(".env", exist_ok=True)
     os.makedirs("file", exist_ok=True)
     # Path to the YAML file
-    file_path = 'system.yaml'
-
+    file_name = 'system.yaml'
+    data = {
+        'version': '0.0.1',
+        'last_login': ''
+    }
+    # Write data to the YAML file
+    if not os.path.exists(file_name):
+        with open(file_name, 'w') as file:
+            yaml.dump(data, file)
     # Assuming you have a YAML file named 'data.yaml'
-    with open(file_path, 'r') as file:
+    with open(file_name, 'r') as file:
         yaml_data = yaml.safe_load(file)
+        print(yaml_data)
 
-    # Now you can work with the YAML data
-    print(yaml_data)

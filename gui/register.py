@@ -8,7 +8,6 @@ import yaml
 
 import transfer
 from gui.base import BaseGUIFunc
-from helpers import helpers
 
 
 class RegisterGUIFunc(BaseGUIFunc):
