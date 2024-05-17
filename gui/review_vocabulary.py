@@ -1,6 +1,7 @@
 # coding=utf-8
 import tkinter as tk
 import tkinter.constants as cs
+from tkinter import messagebox
 
 from config import Config
 from gui.base import BaseGUIFunc
@@ -17,18 +18,22 @@ class ReviewVocabularyGUIFunc(BaseGUIFunc):
 
     def review_vocabulary_layout_init(self):
         # Review Vocabulary Layout
-        vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=5, padx=3, pady=3, width=400, height=400)
         file_names = self.config.exist_vocabulary_files
-        self.choose_review_date = tk.StringVar()
-        if self.review_date is not None:
-            self.choose_review_date.set(self.review_date)
+        if file_names:
+            vocabulary_frame = tk.Frame(relief=cs.RIDGE, borderwidth=5, padx=3, pady=3, width=400, height=400)
+
+            self.choose_review_date = tk.StringVar()
+            if self.review_date is not None:
+                self.choose_review_date.set(self.review_date)
+            else:
+                self.choose_review_date.set("請選擇")
+            review_date_listbox = tk.OptionMenu(vocabulary_frame, self.choose_review_date, *file_names)  # 選單
+            review_date_listbox.pack()
+            vocabulary_frame.pack(anchor=cs.CENTER, expand=True, fill=cs.BOTH)
+            self.choose_review_date.trace('w', self.show)
+            self.homepage_func_frame = vocabulary_frame
         else:
-            self.choose_review_date.set("請選擇")
-        review_date_listbox = tk.OptionMenu(vocabulary_frame, self.choose_review_date, *file_names)  # 選單
-        review_date_listbox.pack()
-        vocabulary_frame.pack(anchor=cs.CENTER, expand=True, fill=cs.BOTH)
-        self.choose_review_date.trace('w', self.show)
-        self.homepage_func_frame = vocabulary_frame
+            messagebox.showinfo("Notice", "There isn't any vocabulary to review")
 
     def show(self, *_):
         if self.choose_review_date.get() != "請選擇":

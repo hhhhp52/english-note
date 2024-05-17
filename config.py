@@ -16,16 +16,17 @@ class Config:
         self.mapping_between_file_and_vocabulary_count = dict()
         self.account_vocabulary = list()
 
-    def init_account_data(self, account: dict, current_date: str):
-        self.account = account["account"]
-        self.name = account["name"]
-        self.email = account["email"]
+    def init_account_data(self, account_data: dict, current_date: str):
+        self.account = account_data["account"]
+        self.name = account_data["name"]
+        self.email = account_data["email"]
         helpers.check_and_create_file(self.account, current_date)
         mapping_between_file_and_vocabulary_count = dict()
         exist_vocabulary_files = list()
         file_names = helpers.list_file_names(self.account)
         vocabulary = list()
         for file_name in file_names:
+            print(file_name)
             file_data = helpers.read_file(self.account, file_name)
             if file_data:
                 exist_vocabulary_files.append(file_name)
@@ -59,17 +60,17 @@ def init_system_dir():
     os.makedirs(".env", exist_ok=True)
     os.makedirs("file", exist_ok=True)
     # Path to the YAML file
-    file_name = 'system.yaml'
+    config_path = os.path.join(os.path.dirname(__file__), 'system.yaml')
     data = {
         'version': '0.0.1',
         'last_login': ''
     }
     # Write data to the YAML file
-    if not os.path.exists(file_name):
-        with open(file_name, 'w') as file:
+    if not os.path.exists(config_path):
+        with open(config_path, 'w') as file:
             yaml.dump(data, file)
     # Assuming you have a YAML file named 'data.yaml'
-    with open(file_name, 'r') as file:
+    with open(config_path, 'r') as file:
         yaml_data = yaml.safe_load(file)
         print(yaml_data)
 

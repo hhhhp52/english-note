@@ -99,30 +99,36 @@ class TestingVocabularyGUIFunc(BaseGUIFunc):
         self.homepage_func_frame = testing_function_frame
 
     def choose_question_init(self):
-        if self.testing_frame:
-            self.destroy_widgets(self.testing_frame)
-            self.testing_frame = None
-        self.question = None
-        self.testing_way = "choose"
-        self.question = QuestionNode(
-            vocabulary_words=self.config.account_vocabulary,
-            testing_way=self.testing_way,
-            testing_size=5
-        )
-        self.choose_question(self.question.get_data())
+        if self.config.account_vocabulary:
+            if self.testing_frame:
+                self.destroy_widgets(self.testing_frame)
+                self.testing_frame = None
+            self.question = None
+            self.testing_way = "choose"
+            self.question = QuestionNode(
+                vocabulary_words=self.config.account_vocabulary,
+                testing_way=self.testing_way,
+                testing_size=5
+            )
+            self.choose_question(self.question.get_data())
+        else:
+            messagebox.showinfo("Notice", "There isn't any vocabulary to test")
 
     def fill_out_init(self):
-        if self.testing_frame:
-            self.destroy_widgets(self.testing_frame)
-            self.testing_frame = None
-        self.question = None
-        self.testing_way = "fill_out"
-        self.question = QuestionNode(
-            vocabulary_words=self.config.account_vocabulary,
-            testing_way=self.testing_way,
-            testing_size=5
-        )
-        self.fill_out_question(self.question.get_data())
+        if self.config.account_vocabulary:
+            if self.testing_frame:
+                self.destroy_widgets(self.testing_frame)
+                self.testing_frame = None
+            self.question = None
+            self.testing_way = "fill_out"
+            self.question = QuestionNode(
+                vocabulary_words=self.config.account_vocabulary,
+                testing_way=self.testing_way,
+                testing_size=5
+            )
+            self.fill_out_question(self.question.get_data())
+        else:
+            messagebox.showinfo("Notice", "There isn't any vocabulary to test")
 
     def choose_question(self, data):
         data_frame = tk.Frame(self.homepage_func_frame, relief=cs.RIDGE, borderwidth=10, padx=5, pady=5)
