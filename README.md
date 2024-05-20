@@ -1,13 +1,20 @@
 # english-note
 
-## Folder Structure
+## 1. TODO
+ - [ ] Testing Vocabulary[Choose question]
+ - [ ] Creating Vocabulary[Add asking ChatGPT]
+ - [ ] Backup data
+ - [ ] Send Daily Vocabulary Review[Using Line Notification]
+ - [ ] Package The Application
+
+## 2. Folder Structure
     - gui : Function layout and function sub-function
     - helpers  
     - config.py
     - main.py
     - transfer.py
 
-## Packaging `english-note` as a Desktop Application
+## 3. Packaging `english-note` as a Desktop Application
 
 - To package your `english-note` application as a desktop application, you can use PyInstaller, a popular tool for converting Python programs into standalone executables.
 
